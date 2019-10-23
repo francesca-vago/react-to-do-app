@@ -5,7 +5,7 @@ import Task from './Task/Task';
 class TaskList extends Component {
 
   render() {
-    const {tasks, clearList} = this.props;
+    const {tasks, clearList, handleDelete} = this.props;
 
     return(
       <div>
@@ -13,7 +13,11 @@ class TaskList extends Component {
           <h1>I am the Task List</h1>
             {tasks.map(task => {
               return(
-                <Task key={task.id} title={task.title}/>
+                <Task
+                  key={task.id}
+                  title={task.title}
+                  handleDelete={()=> handleDelete(task.id)}
+                />
               )
             })}
         </ListGroup>

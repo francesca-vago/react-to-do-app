@@ -13,7 +13,7 @@ const task = (props) => {
           <span className="mx-2 text-success">
             <FontAwesomeIcon icon={faPen}/>
           </span>
-          <span className="mx-2 text-danger">
+          <span className="mx-2 text-danger" onClick={props.handleDelete}>
             <FontAwesomeIcon icon={faTrash}/>
           </span>
         </div>

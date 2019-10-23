@@ -45,6 +45,13 @@ class App extends Component {
     })
   }
 
+  handleDelete = (id) => {
+    const filteredTasks = this.state.tasks.filter(task => task.id !== id)
+    this.setState({
+      tasks: filteredTasks
+    })
+  }
+
   render() {
     return (
         <div className="App">
@@ -60,6 +67,7 @@ class App extends Component {
                 <TaskList
                   tasks={this.state.tasks}
                   clearList={this.clearList}
+                  handleDelete={this.handleDelete}
                 />
               </Col>
             </Row>
