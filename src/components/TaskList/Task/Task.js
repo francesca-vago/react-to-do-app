@@ -8,7 +8,7 @@ const task = (props) => {
   return (
     <div>
       <ListGroupItem className="text-capitalize d-flex justify-content-between my-2">
-        <h3>Title</h3>
+        <h3>{props.title}</h3>
         <div className="task-icons">
           <span className="mx-2 text-success">
             <FontAwesomeIcon icon={faPen}/>

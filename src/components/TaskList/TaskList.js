@@ -5,7 +5,7 @@ import Task from './Task/Task';
 class TaskList extends Component {
 
   render() {
-    const {tasks} = this.props;
+    const {tasks, clearList} = this.props;
 
     return(
       <div>
@@ -17,8 +17,11 @@ class TaskList extends Component {
               )
             })}
         </ListGroup>
-        <Button color="danger" size="lg" block
-          className="my-3">Clear List</Button>
+        <Button
+          color="danger" size="lg" block
+          className="my-3"
+          onClick={clearList}
+          >Clear List</Button>
       </div>
     )
   }

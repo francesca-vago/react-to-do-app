@@ -26,7 +26,7 @@ class App extends Component {
 
     const newTask = {
       id: this.state.id,
-      task: this.state.task
+      title: this.state.task
     };
 
     const updatedTasks = [...this.state.tasks,newTask]
@@ -39,6 +39,11 @@ class App extends Component {
     })
   };
 
+  clearList = () => {
+    this.setState({
+      tasks: []
+    })
+  }
 
   render() {
     return (
@@ -52,7 +57,10 @@ class App extends Component {
                   handleChange={this.handleChange}
                   handleSubmit={this.handleSubmit}
                 />
-                <TaskList tasks={this.state.tasks}/>
+                <TaskList
+                  tasks={this.state.tasks}
+                  clearList={this.clearList}
+                />
               </Col>
             </Row>
           </Container>
