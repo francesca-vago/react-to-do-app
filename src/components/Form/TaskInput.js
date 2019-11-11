@@ -1,24 +1,49 @@
 import React, { Component } from 'react';
-import { Form, InputGroup, InputGroupAddon, Input, Button } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { Form, InputGroup, Input, Button } from 'reactstrap';
+import axios from 'axios';
 
+export default class TaskInput extends Component {
+  constructor(props) {
+    super(props);
 
-class TaskInput extends Component {
+    this.state = {
+      name: ''
+    }
+  }
+
+  handleChange = (event) => {
+    this.setState({
+      name: event.target.value
+    })
+  };
+
+  addTask = (newTask) => {
+    axios.post('http://localhost:5000', newTask)
+      .then(res => console.log(res.data));
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    const newTask = {
+      name: this.state.name
+    };
+
+    this.addTask(newTask);
+
+    window.location.reload(true);
+  };
+
   render() {
-    const {task, handleChange, handleSubmit} = this.props
     return(
       <div>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={this.handleSubmit} className="item">
           <InputGroup>
-            <InputGroupAddon addonType="prepend">
-              <FontAwesomeIcon icon={faCoffee} />
-            </InputGroupAddon>
             <Input
-              placeholder="add a new task"
+              placeholder="Add a new task"
               className="text-capitalize"
-              value={task}
-              onChange={handleChange}
+              value={this.state.name}
+              onChange={this.handleChange}
             />
           </InputGroup>
           <Button color="primary" size="lg" block
@@ -28,5 +53,3 @@ class TaskInput extends Component {
     )
   }
 }
-
-export default TaskInput;

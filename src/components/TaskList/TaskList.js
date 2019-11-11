@@ -1,31 +1,65 @@
 import React, { Component } from 'react';
-import { ListGroup, Button } from 'reactstrap';
+import axios from 'axios';
+import { Form, ListGroup, Button } from 'reactstrap';
 import Task from './Task/Task';
 
 class TaskList extends Component {
 
-  render() {
-    const {tasks, clearList, handleDelete} = this.props;
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      tasks: []
+    }
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:5000')
+      .then(res => {
+        if (res.data.length > 0) {
+          this.setState({
+            tasks: res.data
+          })
+        }
+      })
+  }
+
+  deleteAllTasks = () => {
+    axios.delete('http://localhost:5000')
+      .then(res => console.log(res.data));
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    this.deleteAllTasks();
+
+    window.location.reload(true);
+
+  }
+
+  render() {
     return(
       <div>
-        <ListGroup>
+        <ListGroup className="box" id="heading">
           <h1>I am the Task List</h1>
-            {tasks.map(task => {
+            {this.state.tasks.map(task => {
               return(
                 <Task
-                  key={task.id}
-                  title={task.title}
-                  handleDelete={()=> handleDelete(task.id)}
+                  key={task._id}
+                  id={task._id}
+                  title={task.name}
                 />
               )
             })}
         </ListGroup>
-        <Button
-          color="danger" size="lg" block
-          className="my-3"
-          onClick={clearList}
-          >Clear List</Button>
+        <Form onSubmit={this.handleSubmit}>
+          <Button
+            color="danger" size="lg" block
+            className="my-3"
+            type="submit"
+            >Clear List</Button>
+        </Form>
       </div>
     )
   }

@@ -1,27 +1,44 @@
-import React from 'react';
-import { ListGroupItem } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
+import React, { Component } from 'react';
+import axios from 'axios';
+import { Form, FormGroup, Input } from 'reactstrap';
 import './Task.css';
 
-const task = (props) => {
-  return (
-    <div>
-      <ListGroupItem className="text-capitalize d-flex justify-content-between my-2">
-        <h3>{props.title}</h3>
-        <div className="task-icons">
-          <span className="mx-2 text-success">
-            <FontAwesomeIcon icon={faPen}/>
-          </span>
-          <span className="mx-2 text-danger" onClick={props.handleDelete}>
-            <FontAwesomeIcon icon={faTrash}/>
-          </span>
-        </div>
-      </ListGroupItem>
-    </div>
-  );
+export default class Task extends Component {
+
+  deleteTask = (taskId) => {
+    axios.delete(`http://localhost:5000/`, {
+     params: {_id: {taskId}}
+    })
+      .then(res => console.log(res.data));
+  }
+
+  handleChange = (e) => {
+    if (e.target.checked) {
+      console.log('I am checked');
+      const taskId = e.target.value;
+
+      console.log(taskId);
+
+      this.deleteTask(taskId);
+
+      window.location.reload(true);
+    } else {
+      console.log('I am unchecked');
+    }
+  }
+
+  render(props) {
+    return (
+        <Form>
+          <FormGroup className="item text-capitalize d-flex justify-content-between my-2">
+            <Input
+              type = "checkbox"
+              value = {this.props.id}
+              onChange = {this.handleChange}
+            />
+            <p>{this.props.title}</p>
+          </FormGroup>
+        </Form>
+    );
+  }
 }
-
-export default task;
-
-
